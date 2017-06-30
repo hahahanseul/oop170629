@@ -1,89 +1,72 @@
 package com.hanbit.oop.service;
 
+import com.hanbit.oop.domain.MemberBean;
+
 public class MemberService {
-	private String id, pw, name, ssn, age, gender, login, loginId, loginPw;
-	public void setId(String id){
-		this.id=id;
-	}
-	public String getId(){
-		return id;
-	}
-	public void setPw(String pw){
-		this.pw=pw;
-	}
-	public String getPw(){
-		return pw;
-	}
-	public void setName(String name){
-		this.name=name;
-	}
-	public String getName(){
-		return name;
-	}
-	public void setSsn(String ssn){
-		this.ssn=ssn;
-	}
-	public String getSsn(){
-		return ssn;
-	}
-	public void setAge(){
-		int year=Integer.parseInt(ssn.substring(0,2));
-		char ch = ssn.charAt(7);
-		if(17-year>=0){
-			this.age=String.valueOf(2017-(year+2000));
-		}else{
-			this.age=String.valueOf(2017-(year+1900));
-		}
-	}
-	public String getAge(){
-		return age;
-	}
-	public void setGender(){
-		char ch = ssn.charAt(7);
-		switch (ch){
-			case '1': case '3':
-				this.gender="male";
-			break;
-			case '2': case '4':
-				this.gender="female";
-			break;
-			case '5': case '6':
-				this.gender="foreigner";
-			break;
-			default : 
-				this.gender="wrong id number";
-		}
-	}
-	public String getGender(){
-		return gender;
-	}
-	public void setLoginId(String loginId){
-		this.loginId=loginId;
-	}
-	public String getLoginId(){
-		return loginId;
-	}
-	public void setLoginPw(String loginPw){
-		this.loginPw=loginPw;
-	}
-	public String getLoginPw(){
-		return loginPw;
-	}
-	public void setLogin(String loginId, String loginPw){
-		if(loginId.equals(id)){
-			if(loginPw.equals(pw)){
-				this.login =toString();
-			}else{
-				this.login="비밀번호가 다릅니다.";
-			}	
-		}else{
-			this.login="존재하지 않는 아이디입니다.";
-		}
-	}
-	public String getLogin(){
-		return login;
-	}
-	public String toString(){
-		return "welcome" + name + "("+gender+","+age+"세"+")";
-	}
+   MemberBean session; // RAM은 공간만 만들어 놓고 연산은 하지 않는다. (절대 opcode가 없다.)
+   MemberBean temp;
+   public MemberService() {
+      session = new MemberBean();
+      temp = new MemberBean();
+      // session은 이전 login Id/PW 정보를 저장하기 위함
+   }
+   
+   public String getAge(MemberBean member) {
+      int year = Integer.parseInt(member.getSsn().substring(0, 2));
+      int age = 0;
+      if ((17 - year) >= 0) {
+         age = 2017 - (2000 + year) + 1;
+      } else {
+         age = 2017 - (1900 + year) + 1;
+      }
+      return String.valueOf(age);
+   }
+   public String getGender(MemberBean member) {
+      String gender = "";
+      char genderNum = member.getSsn().charAt(7);
+      switch (genderNum) {
+      case '1':
+      case '3':
+         gender = "남";
+         break;
+      case '2':
+      case '4':
+         gender = "여";
+         break;
+      case '5':
+      case '6':
+         gender = "외국인";
+         break;
+      default:
+         gender = "다시 입력해주세요.";
+         break;
+      }
+      return gender;
+   }
+   public String join(MemberBean member) {
+      String result = "회원가입 성공!";
+      System.out.println("회원가입시 사용 ID : " + member.getId());
+      System.out.println("회원가입시 사용 PW : " + member.getPw());
+      System.out.println("회원가입시 사용 name : " + member.getName());
+      System.out.println("회원가입시 사용 SSN : " + member.getSsn());
+      // session에 회원가입시 입력한 정보를 저장하는 소스
+      session = member; 
+      // 객체지향 (객체로 "주소"값을 전달하고 받는다. 객체 자체를 똑같이 카피해둔다. 
+      // But, 값 copy가 아니라서 member가 바뀌면 session이 갱신된다.)
+      return result;
+   }
+   
+   public String login(MemberBean member, MemberBean temp) {
+      String login = "", gender = getGender(member), age = getAge(member);
+      if (temp.getId().equals(session.getId())) {
+         if (temp.getPw().equals(session.getPw())) {
+            login = member.toString(gender, age);
+         } else {
+            login = "비밀번호가 일치하지 않습니다.\n";   
+         }
+      } else {
+         login = "아이디를 확인해주세요.\n";
+      }
+      return login;
+   }
 }
