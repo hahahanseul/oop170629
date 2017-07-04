@@ -1,7 +1,7 @@
 package com.hanbit.oop.domain;
 
 public class MemberBean {
-   private String id, pw, name, ssn; 
+   protected String id, pw, name, ssn; 
 
    public void setId(String id) {
       this.id = id;

@@ -38,7 +38,6 @@ public class PhoneController {
 				JOptionPane.showMessageDialog(null,iphone.toString());
 				break;
 			case "4":
-				
 				android.setName(JOptionPane.showInputDialog("이름?"));
 				android.setPhoneNo(JOptionPane.showInputDialog("번호?"));
 				android.setData(JOptionPane.showInputDialog("메시지내역?"));
@@ -46,7 +45,6 @@ public class PhoneController {
 				android.setAppl(JOptionPane.showInputDialog("어플설치?"));				
 				JOptionPane.showMessageDialog(null,android.toString());
 				break;	
-			
 			}
 		}
 	}
