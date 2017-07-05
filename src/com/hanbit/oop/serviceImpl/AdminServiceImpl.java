@@ -8,20 +8,21 @@ public class AdminServiceImpl implements AdminService {
 	MemberBean member;
 	MemberBean[] list;
 
-	public AdminServiceImpl(int limit) {
+	public AdminServiceImpl() {
 		count=0;
 		member = new MemberBean();
-		list = new MemberBean[limit];
+		list = new MemberBean[count];
 		
 	} // i는 처음 입력받은 회원수, 총 회원수는 count에 담겨서 그 숫자만큼 MemberBean의 공간이 생성됨
 
 	@Override
 	public void addMember(MemberBean member) {
-		list[count]=member;
-		for(int i=0; i<(count+1);i++){
-			System.out.println(list[i].toString());
+		if(count==list.length) {
+			MemberBean[] temp = new MemberBean[count+1];
+			System.arraycopy(list, 0, temp, 0, count);
+			list=temp;
 		}
-		count++;
+		list[count++]=member;
 	}
 	
 	@Override
@@ -69,8 +70,21 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public void updatePw(MemberBean member) {
-		// TODO Auto-generated method stub
+	public void updatePw(MemberBean param) {
+		member = findById(param.getId());
+		member.setPw(param.getPw());
 		
+	}
+
+	@Override
+	public void deleteId(String id) {
+	for(int i=0;i<count;i++){
+			if(id.equals(list[i].getId())){
+				list[i]=list[count-1];
+				list[count-1]=null;
+				count--;
+				break;
+			}
+		}
 	}
 }

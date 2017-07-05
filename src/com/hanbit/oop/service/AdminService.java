@@ -9,5 +9,6 @@ public interface AdminService {
 	public MemberBean findById(String id);
 	public MemberBean[] findByNamse(String name);
 	public void updatePw(MemberBean member);
+	public void deleteId(String id);
 	//MemberBean[] list=new MemberBean[4];
 }
