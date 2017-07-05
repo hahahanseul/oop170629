@@ -3,6 +3,7 @@ package com.hanbit.oop.domain;
 public class MemberBean {
    protected String id, pw, name, ssn; 
 
+   
    public void setId(String id) {
       this.id = id;
    }
@@ -30,4 +31,5 @@ public class MemberBean {
    public String toString() {
 	   return "MemberBean [id=" + id + ", pw=" + pw + ", ssn=" + ssn + ", name=" + name + "]";
    }
+   
 }
